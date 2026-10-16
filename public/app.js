@@ -185,6 +185,8 @@ async function refresh({notify = false} = {}) {
   } finally {clearTimeout(timeout); refreshing = false; $("refresh").disabled = false; $("refresh").setAttribute("aria-busy", "false"); $("refresh-icon").classList.remove("spin"); $("refresh-label").textContent = "刷新";}
 }
 document.querySelector("[data-actions]").href = runLink();
+$("manual-checkin").href = runLink().replace(/\/actions$/, "/actions/workflows/bugku-checkin.yml");
+$("manual-checkin").addEventListener("click", () => showToast("success", "请在 GitHub 确认", "选择执行方式后点击 Run workflow，运行结果完成后会同步回面板。"));
 $("refresh").addEventListener("click", () => refresh({notify:true}));
 document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
   filter = button.dataset.filter;
