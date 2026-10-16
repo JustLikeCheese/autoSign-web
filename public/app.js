@@ -27,21 +27,72 @@ function runLink(id) {
 }
 
 const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+const themeNames = {system:"跟随系统", dark:"深色模式", light:"浅色模式"};
+const themeOptions = [...document.querySelectorAll("[data-theme-mode]")];
+let currentTheme = "system";
 function applyTheme(mode, persist = false) {
   if (!["system", "dark", "light"].includes(mode)) mode = "system";
+  currentTheme = mode;
   if (mode === "system") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = mode;
-  $("theme").value = mode;
+  $("theme-label").textContent = themeNames[mode];
+  themeOptions.forEach(option => option.setAttribute("aria-checked", String(option.dataset.themeMode === mode)));
   const dark = mode === "dark" || (mode === "system" && systemTheme.matches);
   $("theme-icon").replaceChildren(icon(mode === "system" ? "monitor" : dark ? "moon" : "sun"));
-  $("theme").title = `${mode === "system" ? "跟随系统" : "手动选择"}，当前${dark ? "深色" : "浅色"}`;
+  $("theme").setAttribute("aria-description", `${mode === "system" ? "跟随系统" : "手动选择"}，当前${dark ? "深色" : "浅色"}`);
   if (persist) {try {localStorage.setItem("autosign-theme", mode);} catch {}}
 }
 let initialTheme = "system";
 try {initialTheme = localStorage.getItem("autosign-theme") || "system";} catch {}
 applyTheme(initialTheme);
-$("theme").addEventListener("change", event => applyTheme(event.target.value, true));
-systemTheme.addEventListener("change", () => {if ($("theme").value === "system") applyTheme("system");});
+function closeThemeMenu(restoreFocus = false) {
+  $("theme-menu").hidden = true; $("theme").setAttribute("aria-expanded", "false");
+  if (restoreFocus) $("theme").focus();
+}
+function openThemeMenu() {
+  $("theme-menu").hidden = false; $("theme").setAttribute("aria-expanded", "true");
+  themeOptions.find(option => option.dataset.themeMode === currentTheme).focus();
+}
+$("theme").addEventListener("click", () => {if ($("theme-menu").hidden) openThemeMenu(); else closeThemeMenu();});
+$("theme").addEventListener("keydown", event => {
+  if (["ArrowDown", "ArrowUp"].includes(event.key)) {event.preventDefault(); openThemeMenu();}
+});
+themeOptions.forEach(option => option.addEventListener("click", () => {applyTheme(option.dataset.themeMode, true); closeThemeMenu(true);}));
+$("theme-menu").addEventListener("keydown", event => {
+  const index = themeOptions.indexOf(document.activeElement);
+  let next;
+  if (event.key === "ArrowDown") next = (index + 1) % themeOptions.length;
+  if (event.key === "ArrowUp") next = (index - 1 + themeOptions.length) % themeOptions.length;
+  if (event.key === "Home") next = 0;
+  if (event.key === "End") next = themeOptions.length - 1;
+  if (next !== undefined) {event.preventDefault(); themeOptions[next].focus();}
+  if (event.key === "Tab") closeThemeMenu(true);
+});
+document.addEventListener("keydown", event => {if (event.key === "Escape" && !$("theme-menu").hidden) {event.preventDefault(); closeThemeMenu(true);}});
+document.addEventListener("click", event => {if (!event.target.closest(".theme-picker")) closeThemeMenu();});
+document.addEventListener("focusin", event => {if (!event.target.closest(".theme-picker")) closeThemeMenu();});
+systemTheme.addEventListener("change", () => {if (currentTheme === "system") applyTheme("system");});
+
+let toastTimer;
+function dismissToast() {clearTimeout(toastTimer); $("toast").hidden = true;}
+function scheduleToastDismiss() {
+  clearTimeout(toastTimer);
+  if ($("toast").dataset.state === "success" && !$("toast").matches(":hover, :focus-within")) toastTimer = setTimeout(dismissToast, 5500);
+}
+function showToast(state, title, description) {
+  clearTimeout(toastTimer);
+  $("toast").dataset.state = state;
+  $("toast-icon").replaceChildren(icon(state === "loading" ? "refresh-cw" : state === "error" ? "triangle-alert" : "circle-check"));
+  $("toast-title").textContent = title; $("toast-description").textContent = description;
+  $("toast-retry").hidden = state !== "error"; $("toast").hidden = false;
+  scheduleToastDismiss();
+}
+$("toast-close").addEventListener("click", () => {$("refresh").focus(); dismissToast();});
+$("toast").addEventListener("mouseenter", () => clearTimeout(toastTimer));
+$("toast").addEventListener("mouseleave", scheduleToastDismiss);
+$("toast").addEventListener("focusin", () => clearTimeout(toastTimer));
+$("toast").addEventListener("focusout", event => {if (!$("toast").contains(event.relatedTarget)) scheduleToastDismiss();});
+$("toast-retry").addEventListener("click", () => {$("toast-close").focus(); refresh({notify:true});});
 
 function render() {
   const runs = data.runs, last = runs[0], recent = runs.slice(0,30), succeeded = recent.filter(run => run.status === "success").length;
@@ -108,26 +159,33 @@ function showDetails(id) {
   }
 }
 
-async function refresh() {
-  $("refresh").disabled = true; $("refresh-icon").classList.add("spin");
+let refreshing = false;
+async function refresh({notify = false} = {}) {
+  if (refreshing) return;
+  refreshing = true;
+  $("refresh").disabled = true; $("refresh").setAttribute("aria-busy", "true"); $("refresh-icon").classList.add("spin"); $("refresh-label").textContent = "同步中…";
+  if (notify) showToast("loading", "正在同步", "正在获取最新签到状态…");
+  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 15000);
   try {
-    const response = await fetch(`status.json?t=${Date.now()}`, {cache:"no-store", credentials:"omit"});
+    const response = await fetch(`status.json?t=${Date.now()}`, {cache:"no-store", credentials:"omit", signal:controller.signal});
     if (!response.ok) throw new Error("fetch");
     const next = await response.json();
     if (next.schema_version !== 1 || !Array.isArray(next.runs)) throw new Error("format");
-    const previous = data; data = next;
+    const changed = JSON.stringify(next) !== JSON.stringify(data), previous = data; data = next;
     try {render();} catch (error) {data = previous; throw error;}
     $("notice").hidden = true;
+    if (notify) showToast("success", "刷新完成", `${changed ? "已同步最新记录" : "记录已是最新"} · ${date(new Date(), {hour:"2-digit", minute:"2-digit", second:"2-digit"})} 台北时间`);
   } catch {
+    if (notify) showToast("error", "刷新未完成", "暂时无法获取最新状态，现有记录已保留。请稍后重试。");
     $("notice-text").textContent = "暂时无法获取最新记录。已加载的数据会保留，请稍后刷新。"; $("notice").hidden = false;
     if (!data.runs.length) {
       $("hero-title").textContent = "暂时无法读取数据"; $("hero-description").textContent = "请稍后刷新，或前往 GitHub 查看运行记录。"; $("hero-status").textContent = "连接异常";
       $("runs").replaceChildren(); const row = el("tr"), cell = el("td", "数据读取失败", "empty"); cell.colSpan = 3; row.append(cell); $("runs").append(row);
     }
-  } finally {$("refresh").disabled = false; $("refresh-icon").classList.remove("spin");}
+  } finally {clearTimeout(timeout); refreshing = false; $("refresh").disabled = false; $("refresh").setAttribute("aria-busy", "false"); $("refresh-icon").classList.remove("spin"); $("refresh-label").textContent = "刷新";}
 }
 document.querySelector("[data-actions]").href = runLink();
-$("refresh").addEventListener("click", refresh);
+$("refresh").addEventListener("click", () => refresh({notify:true}));
 document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
   filter = button.dataset.filter;
   document.querySelectorAll("[data-filter]").forEach(item => {item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", String(item === button));});
