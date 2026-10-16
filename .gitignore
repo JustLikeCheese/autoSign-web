@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+.env.*
+acc.txt
+pwd.txt
+*.pem
+*.key
+node_modules/
