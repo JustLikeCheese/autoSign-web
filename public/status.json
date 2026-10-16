@@ -1,222 +1,210 @@
 {
-  "schema_version": 1,
-  "updated_at": "2026-10-16T06:57:51.225061Z",
-  "runs": [
-    {
-      "id": "38864190407",
-      "started_at": "2026-10-16T06:57:30Z",
-      "finished_at": "2026-10-16T06:57:51.225061Z",
-      "duration_seconds": 21,
-      "status": "success",
-      "result": "already_done",
-      "trigger": "workflow_dispatch",
-      "steps": [
-        {
-          "name": "python",
-          "status": "success",
-          "duration_seconds": 1
-        },
-        {
-          "name": "dependencies",
-          "status": "success",
-          "duration_seconds": 9
-        },
-        {
-          "name": "tests",
-          "status": "success",
-          "duration_seconds": 2
-        },
-        {
-          "name": "checkin",
-          "status": "success",
-          "duration_seconds": 5
-        }
-      ],
-      "logs": [
-        {
-          "code": "task_started",
-          "level": "info"
-        },
-        {
-          "code": "tests_passed",
-          "level": "info"
-        },
-        {
-          "code": "login_success",
-          "level": "info"
-        },
-        {
-          "code": "already_done",
-          "level": "info"
-        },
-        {
-          "code": "task_finished",
-          "level": "info"
-        }
-      ]
-    },
-    {
-      "id": "38855658330",
-      "started_at": "2026-10-16T05:25:08Z",
-      "finished_at": "2026-10-16T05:25:36.800238Z",
-      "duration_seconds": 29,
-      "status": "success",
-      "result": "already_done",
-      "trigger": "workflow_dispatch",
-      "steps": [
-        {
-          "name": "python",
-          "status": "success",
-          "duration_seconds": 0
-        },
-        {
-          "name": "dependencies",
-          "status": "success",
-          "duration_seconds": 16
-        },
-        {
-          "name": "tests",
-          "status": "success",
-          "duration_seconds": 1
-        },
-        {
-          "name": "checkin",
-          "status": "success",
-          "duration_seconds": 6
-        }
-      ],
-      "logs": [
-        {
-          "code": "task_started",
-          "level": "info"
-        },
-        {
-          "code": "tests_passed",
-          "level": "info"
-        },
-        {
-          "code": "login_success",
-          "level": "info"
-        },
-        {
-          "code": "already_done",
-          "level": "info"
-        },
-        {
-          "code": "task_finished",
-          "level": "info"
-        }
-      ]
-    },
-    {
-      "id": "38855463860",
-      "started_at": "2026-10-16T05:22:52Z",
-      "finished_at": "2026-10-16T05:23:22.375301Z",
-      "duration_seconds": 30,
-      "status": "success",
-      "result": "already_done",
-      "trigger": "workflow_dispatch",
-      "steps": [
-        {
-          "name": "python",
-          "status": "success",
-          "duration_seconds": 0
-        },
-        {
-          "name": "dependencies",
-          "status": "success",
-          "duration_seconds": 16
-        },
-        {
-          "name": "tests",
-          "status": "success",
-          "duration_seconds": 1
-        },
-        {
-          "name": "checkin",
-          "status": "success",
-          "duration_seconds": 6
-        }
-      ],
-      "logs": [
-        {
-          "code": "task_started",
-          "level": "info"
-        },
-        {
-          "code": "tests_passed",
-          "level": "info"
-        },
-        {
-          "code": "login_success",
-          "level": "info"
-        },
-        {
-          "code": "already_done",
-          "level": "info"
-        },
-        {
-          "code": "task_finished",
-          "level": "info"
-        }
-      ]
-    },
-    {
-      "id": "38840227256",
-      "started_at": "2026-10-16T02:26:24Z",
-      "finished_at": "2026-10-16T02:26:50.024267Z",
-      "duration_seconds": 26,
-      "status": "success",
-      "result": "already_done",
-      "trigger": "workflow_dispatch",
-      "steps": [
-        {
-          "name": "python",
-          "status": "success",
-          "duration_seconds": 0
-        },
-        {
-          "name": "dependencies",
-          "status": "success",
-          "duration_seconds": 13
-        },
-        {
-          "name": "tests",
-          "status": "success",
-          "duration_seconds": 1
-        },
-        {
-          "name": "checkin",
-          "status": "success",
-          "duration_seconds": 6
-        }
-      ],
-      "logs": [
-        {
-          "code": "task_started",
-          "level": "info"
-        },
-        {
-          "code": "tests_passed",
-          "level": "info"
-        },
-        {
-          "code": "captcha_retry",
-          "level": "warning"
-        },
-        {
-          "code": "login_success",
-          "level": "info"
-        },
-        {
-          "code": "already_done",
-          "level": "info"
-        },
-        {
-          "code": "task_finished",
-          "level": "info"
-        }
-      ]
-    }
-  ]
+	"schema_version":	1,
+	"updated_at":	"2026-10-16T07:35:43Z",
+	"runs":	[{
+			"id":	"38868154482",
+			"started_at":	"2026-10-16T07:35:14Z",
+			"finished_at":	"2026-10-16T07:35:43Z",
+			"duration_seconds":	29,
+			"status":	"failure",
+			"result":	"failed",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	1
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	3
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"failure",
+					"duration_seconds":	19
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"network_failure",
+					"level":	"error"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"id":	"38864190407",
+			"started_at":	"2026-10-16T06:57:30Z",
+			"finished_at":	"2026-10-16T06:57:51Z",
+			"duration_seconds":	21,
+			"status":	"success",
+			"result":	"already_done",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	1
+				}, {
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	9
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	2
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	5
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"already_done",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"id":	"38855658330",
+			"started_at":	"2026-10-16T05:25:08Z",
+			"finished_at":	"2026-10-16T05:25:36Z",
+			"duration_seconds":	28,
+			"status":	"success",
+			"result":	"already_done",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	16
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	1
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	6
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"already_done",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"id":	"38855463860",
+			"started_at":	"2026-10-16T05:22:52Z",
+			"finished_at":	"2026-10-16T05:23:22Z",
+			"duration_seconds":	30,
+			"status":	"success",
+			"result":	"already_done",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	16
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	1
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	6
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"already_done",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"id":	"38840227256",
+			"started_at":	"2026-10-16T02:26:24Z",
+			"finished_at":	"2026-10-16T02:26:50Z",
+			"duration_seconds":	26,
+			"status":	"success",
+			"result":	"already_done",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	13
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	1
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	6
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"captcha_retry",
+					"level":	"warning"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"already_done",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}]
 }
