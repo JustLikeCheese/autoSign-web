@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const messages = {task_started:'开始执行 Bugku 签到任务',tests_passed:'离线测试通过',tests_failed:'离线测试未通过',login_success:'登录成功',checked_in:'签到成功',already_done:'今天已经签到，无需重复操作',captcha_retry:'验证码未通过，重新获取后重试',checkin_failed:'签到失败，请登录 GitHub 查看详情',checkin_skipped:'签到步骤未执行',network_failure:'请求超时或网络连接失败',captcha_failed:'验证码达到重试上限',task_finished:'本次执行结束'};
 const stepNames = {python:'准备 Python 环境',dependencies:'安装运行依赖',tests:'运行离线测试',checkin:'登录并签到'};
-const labels = {checked_in:'签到成功',already_done:'今日已签到',failed:'执行异常',unknown:'等待结果',skipped:'未执行'};
+const labels = {checked_in:'签到成功',already_done:'当日已签到',failed:'执行异常',unknown:'等待结果',skipped:'未执行'};
 let data = {runs:[]}, filter = 'all', selectedId = null;
 function date(value, options){return new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Taipei',...options}).format(new Date(value));}
 function el(tag,text,className){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(className)n.className=className;return n;}
@@ -20,7 +20,7 @@ function render(){
  const hero=document.querySelector('.hero');hero.classList.toggle('failure',!!last&&last.status!=='success');
  $('hero-icon').textContent=last?(last.status==='success'?'✓':'!'):'◷';
  $('hero-title').textContent=last?(labels[last.result]||'运行已结束'):'等待首次运行';
- $('hero-description').textContent=last?(last.status==='success'?'今天的例行任务已完成，继续专注你的挑战。':'这次运行需要关注，可展开记录查看步骤状态。'):'下一次签到完成后，记录会自动同步到这里。';
+ $('hero-description').textContent=last?(last.status==='success'?'最近一次签到任务已完成，继续专注你的挑战。':'这次运行需要关注，可展开记录查看步骤状态。'):'下一次签到完成后，记录会自动同步到这里。';
  $('hero-status').textContent=last?(last.status==='success'?'运行成功':'需要关注'):'等待同步';
  $('hero-time').textContent=last?date(last.finished_at,{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}):'每天 08:17 自动执行';
  $('latest-link').href=runLink(last?.id);
