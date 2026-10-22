@@ -160,7 +160,7 @@ function render() {
     const time = el("td", date(run.started_at, {month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"}));
     const context = el("small"); context.append(icon(run.trigger === "schedule" ? "clock-3" : "play"), document.createTextNode(run.trigger === "schedule" ? "定时执行" : "手动执行")); time.append(context);
     const result = el("td"), badge = el("span", undefined, `result-badge ${run.status === "success" ? "" : "bad"}`);
-    badge.append(icon(run.status === "success" ? "check" : "circle-x"), document.createTextNode(labels[run.result] || "执行结束")); result.append(badge);
+    badge.append(icon(run.status === "success" ? "check" : "circle-x"), document.createTextNode(run.status === "failure" ? `${failureStage(run)}失败` : labels[run.result] || "执行结束")); result.append(badge);
     const action = el("td"), button = el("button", undefined, "row-button"); button.type = "button"; button.setAttribute("aria-label", `查看运行 ${run.id} 的日志`); button.append(icon("arrow-up-right"));
     button.addEventListener("click", () => showDetails(run.id)); action.append(button); row.append(time, result, action); body.append(row);
   }
