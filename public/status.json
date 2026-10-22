@@ -1,7 +1,89 @@
 {
 	"schema_version":	1,
-	"updated_at":	"2026-10-22T00:47:58Z",
+	"updated_at":	"2026-10-22T03:40:16Z",
 	"runs":	[{
+			"platform":	"bugku",
+			"id":	"39718086482",
+			"started_at":	"2026-10-22T03:40:04Z",
+			"finished_at":	"2026-10-22T03:40:16Z",
+			"duration_seconds":	12,
+			"status":	"failure",
+			"result":	"failed",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	4
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"failure",
+					"duration_seconds":	2
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"checkin_failed",
+					"level":	"error"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"platform":	"nssctf",
+			"id":	"39718086482",
+			"started_at":	"2026-10-22T03:40:04Z",
+			"finished_at":	"2026-10-22T03:40:16Z",
+			"duration_seconds":	12,
+			"status":	"success",
+			"result":	"already_done",
+			"trigger":	"workflow_dispatch",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	4
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	2
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"already_done",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"platform":	"bugku",
 			"id":	"39701822808",
 			"started_at":	"2026-10-22T00:47:44Z",
 			"finished_at":	"2026-10-22T00:47:58Z",
@@ -46,6 +128,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39546940113",
 			"started_at":	"2026-10-21T04:58:26Z",
 			"finished_at":	"2026-10-21T04:58:43Z",
@@ -90,6 +173,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39528056882",
 			"started_at":	"2026-10-21T01:33:59Z",
 			"finished_at":	"2026-10-21T01:34:15Z",
@@ -131,6 +215,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526979468",
 			"started_at":	"2026-10-21T01:22:59Z",
 			"finished_at":	"2026-10-21T01:23:11Z",
@@ -175,6 +260,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526897915",
 			"started_at":	"2026-10-21T01:22:10Z",
 			"finished_at":	"2026-10-21T01:22:29Z",
@@ -219,6 +305,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526615654",
 			"started_at":	"2026-10-21T01:19:18Z",
 			"finished_at":	"2026-10-21T01:19:50Z",
@@ -263,6 +350,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526514036",
 			"started_at":	"2026-10-21T01:18:14Z",
 			"finished_at":	"2026-10-21T01:18:32Z",
@@ -304,6 +392,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526445048",
 			"started_at":	"2026-10-21T01:17:31Z",
 			"finished_at":	"2026-10-21T01:17:42Z",
@@ -345,6 +434,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39526360373",
 			"started_at":	"2026-10-21T01:16:38Z",
 			"finished_at":	"2026-10-21T01:16:53Z",
@@ -386,6 +476,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39525791185",
 			"started_at":	"2026-10-21T01:10:51Z",
 			"finished_at":	"2026-10-21T01:11:03Z",
@@ -430,6 +521,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39525694483",
 			"started_at":	"2026-10-21T01:09:56Z",
 			"finished_at":	"2026-10-21T01:10:13Z",
@@ -471,6 +563,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39372457586",
 			"started_at":	"2026-10-20T04:59:18Z",
 			"finished_at":	"2026-10-20T04:59:39Z",
@@ -515,6 +608,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39201538702",
 			"started_at":	"2026-10-19T04:51:05Z",
 			"finished_at":	"2026-10-19T04:51:20Z",
@@ -556,6 +650,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39098047186",
 			"started_at":	"2026-10-18T04:42:55Z",
 			"finished_at":	"2026-10-18T04:43:12Z",
@@ -597,6 +692,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"39003268304",
 			"started_at":	"2026-10-17T04:37:37Z",
 			"finished_at":	"2026-10-17T04:37:53Z",
@@ -638,6 +734,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38868348817",
 			"started_at":	"2026-10-16T07:37:09Z",
 			"finished_at":	"2026-10-16T07:37:22Z",
@@ -679,6 +776,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38868316077",
 			"started_at":	"2026-10-16T07:36:47Z",
 			"finished_at":	"2026-10-16T07:37:00Z",
@@ -720,6 +818,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38868154482",
 			"started_at":	"2026-10-16T07:35:14Z",
 			"finished_at":	"2026-10-16T07:35:43Z",
@@ -758,6 +857,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38864190407",
 			"started_at":	"2026-10-16T06:57:30Z",
 			"finished_at":	"2026-10-16T06:57:51Z",
@@ -799,6 +899,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38855658330",
 			"started_at":	"2026-10-16T05:25:08Z",
 			"finished_at":	"2026-10-16T05:25:36Z",
@@ -840,6 +941,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38855463860",
 			"started_at":	"2026-10-16T05:22:52Z",
 			"finished_at":	"2026-10-16T05:23:22Z",
@@ -881,6 +983,7 @@
 					"level":	"info"
 				}]
 		}, {
+			"platform":	"bugku",
 			"id":	"38840227256",
 			"started_at":	"2026-10-16T02:26:24Z",
 			"finished_at":	"2026-10-16T02:26:50Z",
