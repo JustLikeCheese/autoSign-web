@@ -1,10 +1,12 @@
 "use strict";
 const $ = id => document.getElementById(id);
 const svgNS = "http://www.w3.org/2000/svg";
-const messages = {task_started:"开始执行 Bugku 签到任务",tests_passed:"离线测试通过",tests_failed:"离线测试未通过",login_success:"登录成功",checked_in:"签到成功",already_done:"当日已签到，无需重复操作",captcha_retry:"验证码未通过，重新获取后重试",checkin_failed:"签到失败，请登录 GitHub 查看详情",checkin_skipped:"签到步骤未执行",network_failure:"请求超时或网络连接失败",captcha_failed:"验证码达到重试上限",task_finished:"本次执行结束"};
+const messages = {task_started:"开始执行签到任务",tests_passed:"离线测试通过",tests_failed:"离线测试未通过",login_success:"登录成功",checked_in:"签到成功",already_done:"当日已签到，无需重复操作",captcha_retry:"验证码未通过，重新获取后重试",checkin_failed:"签到失败，请登录 GitHub 查看详情",checkin_skipped:"签到步骤未执行",network_failure:"请求超时或网络连接失败",captcha_failed:"验证码达到重试上限",task_finished:"本次执行结束"};
 const stepNames = {python:"准备环境",dependencies:"安装依赖",tests:"离线测试",checkin:"登录签到"};
 const labels = {checked_in:"签到成功",already_done:"当日已签到",failed:"执行异常",unknown:"等待结果",skipped:"未执行"};
-let data = {runs:[]}, filter = "all", selectedId = null;
+const platforms = {bugku:"BUGKU CTF", nssctf:"NSSCTF"};
+const platformOf = run => run.platform || "bugku";
+let data = {runs:[]}, filter = "all", selectedId = null, platform = "bugku";
 
 function icon(name) {
   const svg = document.createElementNS(svgNS, "svg");
@@ -95,7 +97,14 @@ $("toast").addEventListener("focusout", event => {if (!$("toast").contains(event
 $("toast-retry").addEventListener("click", () => {$("toast-close").focus(); refresh({notify:true});});
 
 function render() {
-  const runs = data.runs, last = runs[0], recent = runs.slice(0,30), succeeded = recent.filter(run => run.status === "success").length;
+  const runs = data.runs.filter(run => platformOf(run) === platform), last = runs[0], recent = runs.slice(0,30), succeeded = recent.filter(run => run.status === "success").length;
+  $("service-label").textContent = platforms[platform];
+  document.querySelectorAll("[data-platform]").forEach(button => {
+    const latest = data.runs.find(run => platformOf(run) === button.dataset.platform);
+    button.dataset.state = latest ? latest.status === "success" ? "success" : "failure" : "waiting";
+    button.querySelector("small").textContent = latest ? labels[latest.result] || "执行结束" : "等待首次运行";
+    button.setAttribute("aria-pressed", String(button.dataset.platform === platform));
+  });
   $("run-count").replaceChildren(document.createTextNode(String(runs.length)), el("small", "次"));
   $("record-count").textContent = String(runs.length);
   $("success-rate").replaceChildren(document.createTextNode(recent.length ? String(Math.round(succeeded / recent.length * 100)) : "—"), el("small", "%"));
@@ -110,7 +119,7 @@ function render() {
   document.querySelector(".status-panel").dataset.state = last ? success ? "success" : "failure" : "waiting";
   $("hero-icon").replaceChildren(icon(last ? success ? "circle-check" : "circle-x" : "clock-3"));
   $("hero-title").textContent = last ? labels[last.result] || "运行已结束" : "等待首次运行";
-  $("hero-description").textContent = last ? success ? "最近一次签到任务已顺利完成。" : "本次执行需要关注，请查看下方日志。" : "下一次签到完成后，记录将自动同步。";
+  $("hero-description").textContent = last ? success ? platform === "nssctf" ? "已核验当天的每日登录奖励通知。" : "最近一次签到任务已顺利完成。" : "本次执行需要关注，请查看下方日志。" : "下一次签到完成后，记录将自动同步。";
   $("hero-status").textContent = last ? success ? "运行成功" : "需要关注" : "等待同步";
   $("hero-time").textContent = last ? date(last.finished_at, {hour:"2-digit", minute:"2-digit", second:"2-digit"}) : "08:17";
   $("hero-date").textContent = last ? `${date(last.finished_at, {year:"numeric", month:"2-digit", day:"2-digit"})} · 台北时间` : "每天 · 台北时间";
@@ -131,11 +140,11 @@ function render() {
     button.addEventListener("click", () => showDetails(run.id)); action.append(button); row.append(time, result, action); body.append(row);
   }
   if (selectedId) showDetails(selectedId);
-  else {$("steps").replaceChildren(); $("log-lines").replaceChildren(el("p", "等待运行数据…", "log-empty"));}
+  else {$("steps").replaceChildren(); $("log-lines").replaceChildren(el("p", "等待运行数据…", "log-empty")); $("detail-time").textContent = "选择一条运行记录查看详情"; $("detail-id").textContent = "尚未选择运行记录"; $("log-result").textContent = "—"; $("detail-link").href = runLink();}
 }
 
 function showDetails(id) {
-  const run = data.runs.find(item => item.id === id); if (!run) return;
+  const run = data.runs.find(item => item.id === id && platformOf(item) === platform); if (!run) return;
   selectedId = id;
   document.querySelectorAll("tr[data-run-id]").forEach(row => row.classList.toggle("record-selected", row.dataset.runId === id));
   $("detail-time").textContent = date(run.started_at, {year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", second:"2-digit"});
@@ -155,7 +164,8 @@ function showDetails(id) {
     const level = ["info", "warning", "error"].includes(log.level) ? log.level : "info";
     const node = el("div", undefined, `log-line ${level}`), levelIcon = el("span", undefined, "log-level");
     levelIcon.append(icon(level === "warning" ? "triangle-alert" : level === "error" ? "circle-x" : "chevron-right"));
-    node.append(el("span", String(++index).padStart(2,"0"), "line-number"), levelIcon, el("span", messages[log.code], "log-message")); $("log-lines").append(node);
+    const message = platform === "nssctf" && log.code === "checked_in" ? "当日登录奖励领取成功" : platform === "nssctf" && log.code === "already_done" ? "当日登录奖励已领取，核验通过" : messages[log.code];
+    node.append(el("span", String(++index).padStart(2,"0"), "line-number"), levelIcon, el("span", message, "log-message")); $("log-lines").append(node);
   }
 }
 
@@ -186,11 +196,14 @@ async function refresh({notify = false} = {}) {
 }
 document.querySelector("[data-actions]").href = runLink();
 $("manual-checkin").href = runLink().replace(/\/actions$/, "/actions/workflows/bugku-checkin.yml");
-$("manual-checkin").addEventListener("click", () => showToast("success", "请在 GitHub 确认", "选择执行方式后点击 Run workflow，运行结果完成后会同步回面板。"));
+$("manual-checkin").addEventListener("click", () => showToast("success", "请在 GitHub 确认", "选择立即执行或预约一次，两个平台都会执行。运行结果完成后同步回面板。"));
 $("refresh").addEventListener("click", () => refresh({notify:true}));
 document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
   filter = button.dataset.filter;
   document.querySelectorAll("[data-filter]").forEach(item => {item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", String(item === button));});
   render();
+}));
+document.querySelectorAll("[data-platform]").forEach(button => button.addEventListener("click", () => {
+  platform = button.dataset.platform; selectedId = null; render();
 }));
 refresh(); setInterval(() => {if (!document.hidden) refresh();}, 60000);
