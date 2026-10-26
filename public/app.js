@@ -4,10 +4,10 @@ const svgNS = "http://www.w3.org/2000/svg";
 const messages = {task_started:"开始执行签到任务",tests_passed:"离线测试通过",tests_failed:"离线测试未通过",login_success:"登录成功",checked_in:"签到成功",already_done:"当日已签到，无需重复操作",captcha_retry:"验证码未通过，重新获取后重试",checkin_failed:"签到失败，请登录 GitHub 查看详情",checkin_skipped:"签到步骤未执行",network_failure:"请求超时或网络连接失败",captcha_failed:"验证码达到重试上限",task_finished:"本次执行结束"};
 Object.assign(messages, {http_failure:"网站接口返回异常状态",invalid_response:"接口返回格式异常",login_failed:"登录被拒绝或会话已失效",reward_unconfirmed:"未找到当天的每日登录奖励",configuration_failed:"签到账号配置缺失或无效",runtime_failed:"运行库或 OCR 初始化失败"});
 const stepNames = {python:"准备程序",dependencies:"准备运行库",tests:"离线测试",checkin:"登录签到"};
-const stageNames = {configuration:"检查账号配置",runtime:"初始化运行环境",login_page:"访问登录页",captcha:"获取或识别验证码",login:"登录账号",checkin:"提交签到",reward:"核验每日奖励"};
+const stageNames = {configuration:"检查账号配置",runtime:"初始化运行环境",session:"获取登录会话",login_page:"访问登录页",captcha:"获取或识别验证码",login:"登录账号",checkin:"提交签到",reward:"核验每日奖励"};
 const labels = {checked_in:"签到成功",already_done:"当日已签到",failed:"执行异常",unknown:"等待结果",skipped:"未执行"};
-const platforms = {bugku:"BUGKU CTF", nssctf:"NSSCTF"};
-const platformNames = {bugku:"Bugku CTF", nssctf:"NSSCTF"};
+const platforms = {bugku:"BUGKU CTF", nssctf:"NSSCTF", ctfhub:"CTFHUB"};
+const platformNames = {bugku:"Bugku CTF", nssctf:"NSSCTF", ctfhub:"CTFHub"};
 const platformOf = run => run.platform || "bugku";
 let data = {runs:[]}, filter = "all", selectedId = null, platform = "bugku";
 function failureStage(run) {
@@ -223,7 +223,7 @@ async function refresh({notify = false} = {}) {
 }
 document.querySelector("[data-actions]").href = runLink();
 $("manual-checkin").href = runLink().replace(/\/actions$/, "/actions/workflows/bugku-checkin.yml");
-$("manual-checkin").addEventListener("click", () => showToast("success", "请在 GitHub 确认", "选择立即执行或预约一次，两个平台都会执行。运行结果完成后同步回面板。"));
+$("manual-checkin").addEventListener("click", () => showToast("success", "请在 GitHub 确认", "选择立即执行或预约一次，三个平台都会执行。运行结果完成后同步回面板。"));
 $("refresh").addEventListener("click", () => refresh({notify:true}));
 document.querySelectorAll("[data-filter]").forEach(button => button.addEventListener("click", () => {
   filter = button.dataset.filter;
