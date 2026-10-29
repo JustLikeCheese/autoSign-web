@@ -1,7 +1,135 @@
 {
 	"schema_version":	1,
-	"updated_at":	"2026-10-28T05:53:16Z",
+	"updated_at":	"2026-10-29T05:57:31Z",
 	"runs":	[{
+			"platform":	"bugku",
+			"id":	"40826315682",
+			"started_at":	"2026-10-29T05:57:11Z",
+			"finished_at":	"2026-10-29T05:57:31Z",
+			"duration_seconds":	20,
+			"status":	"success",
+			"result":	"checked_in",
+			"trigger":	"schedule",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	3
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	6
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"checked_in",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"platform":	"nssctf",
+			"id":	"40826315682",
+			"started_at":	"2026-10-29T05:57:11Z",
+			"finished_at":	"2026-10-29T05:57:31Z",
+			"duration_seconds":	20,
+			"status":	"success",
+			"result":	"checked_in",
+			"trigger":	"schedule",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	3
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"success",
+					"duration_seconds":	2
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"login_success",
+					"level":	"info"
+				}, {
+					"code":	"checked_in",
+					"level":	"info"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
+			"platform":	"ctfhub",
+			"id":	"40826315682",
+			"started_at":	"2026-10-29T05:57:11Z",
+			"finished_at":	"2026-10-29T05:57:31Z",
+			"duration_seconds":	20,
+			"status":	"failure",
+			"result":	"failed",
+			"error_code":	"captcha_failed",
+			"stage":	"captcha",
+			"trigger":	"schedule",
+			"steps":	[{
+					"name":	"dependencies",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"python",
+					"status":	"success",
+					"duration_seconds":	3
+				}, {
+					"name":	"tests",
+					"status":	"success",
+					"duration_seconds":	0
+				}, {
+					"name":	"checkin",
+					"status":	"failure",
+					"duration_seconds":	2
+				}],
+			"logs":	[{
+					"code":	"task_started",
+					"level":	"info"
+				}, {
+					"code":	"tests_passed",
+					"level":	"info"
+				}, {
+					"code":	"captcha_retry",
+					"level":	"warning"
+				}, {
+					"code":	"captcha_failed",
+					"level":	"error"
+				}, {
+					"code":	"task_finished",
+					"level":	"info"
+				}]
+		}, {
 			"platform":	"bugku",
 			"id":	"40640540080",
 			"started_at":	"2026-10-28T05:52:57Z",
